@@ -1,0 +1,37 @@
+{
+  "timestamp": "2025-11-09T22:46:58.439Z",
+  "errors": [
+    "❌ Equipos faltantes en docker-compose.dynamic.yml: business-development-team, marketing-team, sales-team, finance-team",
+    "❌ cloud-services-team: Nombre de equipo no encontrado en team.js",
+    "❌ cloud-services-team: Dockerfile TEAM_PORT debe ser 8000, encontrado: null",
+    "❌ communications-team: Nombre de equipo no encontrado en team.js",
+    "❌ communications-team: Dockerfile TEAM_PORT debe ser 8000, encontrado: null",
+    "❌ customer-service-team: Nombre de equipo no encontrado en team.js",
+    "❌ customer-service-team: Dockerfile TEAM_PORT debe ser 8000, encontrado: null",
+    "❌ quality-assurance-team: Nombre de equipo no encontrado en team.js",
+    "❌ quality-assurance-team: Dockerfile TEAM_PORT debe ser 8000, encontrado: null",
+    "❌ support-team: Nombre de equipo no encontrado en team.js",
+    "❌ support-team: Dockerfile TEAM_PORT debe ser 8000, encontrado: null"
+  ],
+  "warnings": [],
+  "corrections": [
+    "✅ Agregados 4 equipos faltantes a docker-compose.dynamic.yml"
+  ],
+  "score": 0,
+  "portConfig": {
+    "api-gateway": 8000,
+    "fallback-server": 8001,
+    "silhouette-orchestrator": 8002,
+    "silhouette-planner": 8003,
+    "iris-backend": 3000,
+    "iris-frontend": 3001,
+    "postgres": 5432,
+    "redis": 6379,
+    "prometheus": 9090,
+    "grafana": 3002,
+    "business-development": 8004,
+    "marketing": 8005,
+    "sales": 8006,
+    "finance": 8007
+  }
+}

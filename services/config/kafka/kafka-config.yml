@@ -1,0 +1,288 @@
+# IRIS v2.0 Kafka Topics Configuration
+# Phase 1: Context Memory Infrastructure
+# Created: 2025-11-10
+
+# Context Events Topic - Raw conversation and interaction events
+iris-context-events:
+  topic_name: iris.context.events
+  partitions: 6
+  replication_factor: 1
+  config:
+    retention.ms: 604800000  # 7 days
+    retention.bytes: 1073741824  # 1GB
+    compression.type: gzip
+    cleanup.policy: delete
+    min.insync.replicas: 1
+    default.replication.factor: 1
+    num.network.threads: 3
+    num.io.threads: 8
+    socket.send.buffer.bytes: 102400
+    socket.receive.buffer.bytes: 102400
+    socket.request.max.bytes: 104857600
+
+# Context Processing Topic - Processed and enriched context data
+iris-context-processed:
+  topic_name: iris.context.processed
+  partitions: 4
+  replication_factor: 1
+  config:
+    retention.ms: 2592000000  # 30 days
+    retention.bytes: 2147483648  # 2GB
+    compression.type: lz4
+    cleanup.policy: compact
+    min.insync.replicas: 1
+    delete.retention.ms: 86400000  # 1 day
+    segement.bytes: 1073741824  # 1GB
+
+# Context Insights Topic - Generated insights and patterns
+iris-context-insights:
+  topic_name: iris.context.insights
+  partitions: 3
+  replication_factor: 1
+  config:
+    retention.ms: 31536000000  # 1 year
+    retention.bytes: 5368709120  # 5GB
+    compression.type: lz4
+    cleanup.policy: compact
+    min.insync.replicas: 1
+    delete.retention.ms: 604800000  # 7 days
+
+# Memory Management Topic - Memory strategy and cleanup events
+iris-memory-management:
+  topic_name: iris.memory.management
+  partitions: 2
+  replication_factor: 1
+  config:
+    retention.ms: 864000000  # 10 days
+    retention.bytes: 536870912  # 512MB
+    compression.type: gzip
+    cleanup.policy: delete
+    min.insync.replicas: 1
+
+# Knowledge Graph Topic - Knowledge graph updates and queries
+iris-knowledge-graph:
+  topic_name: iris.knowledge.graph
+  partitions: 3
+  replication_factor: 1
+  config:
+    retention.ms: 31536000000  # 1 year
+    retention.bytes: 10737418240  # 10GB
+    compression.type: lz4
+    cleanup.policy: compact
+    min.insync.replicas: 1
+    delete.retention.ms: 2592000000  # 30 days
+    min.cleanable.dirty.ratio: 0.8
+    min.compaction.lag.ms: 0
+
+# Vector Search Topic - Vector embedding and search operations
+iris-vector-search:
+  topic_name: iris.vector.search
+  partitions: 2
+  replication_factor: 1
+  config:
+    retention.ms: 864000000  # 10 days
+    retention.bytes: 1073741824  # 1GB
+    compression.type: zstd
+    cleanup.policy: delete
+    min.insync.replicas: 1
+
+# Context Retrieval Topic - Context retrieval requests and responses
+iris-context-retrieval:
+  topic_name: iris.context.retrieval
+  partitions: 4
+  replication_factor: 1
+  config:
+    retention.ms: 86400000  # 1 day
+    retention.bytes: 536870912  # 512MB
+    compression.type: gzip
+    cleanup.policy: delete
+    min.insync.replicas: 1
+
+# System Monitoring Topic - Health checks and monitoring events
+iris-system-monitoring:
+  topic_name: iris.system.monitoring
+  partitions: 1
+  replication_factor: 1
+  config:
+    retention.ms: 2592000000  # 30 days
+    retention.bytes: 5368709120  # 5GB
+    compression.type: gzip
+    cleanup.policy: delete
+    min.insync.replicas: 1
+
+# Error and Dead Letter Topic - Error handling and failed messages
+iris-errors:
+  topic_name: iris.errors
+  partitions: 2
+  replication_factor: 1
+  config:
+    retention.ms: 7776000000  # 90 days
+    retention.bytes: 10737418240  # 10GB
+    compression.type: lz4
+    cleanup.policy: delete
+    min.insync.replicas: 1
+
+# Dead Letter Queue for failed context processing
+iris-dead-letter:
+  topic_name: iris.dead.letter
+  partitions: 1
+  replication_factor: 1
+  config:
+    retention.ms: 31536000000  # 1 year
+    retention.bytes: 1073741824  # 1GB
+    compression.type: gzip
+    cleanup.policy: delete
+    min.insync.replicas: 1
+
+# Consumer Groups Configuration
+consumer_groups:
+  context-capture:
+    group_id: iris-context-capture-group
+    topics: [iris.context.events]
+    config:
+      session.timeout.ms: 30000
+      heartbeat.interval.ms: 3000
+      max.poll.records: 500
+      max.poll.interval.ms: 300000
+      enable.auto.commit: false
+      auto.commit.interval.ms: 5000
+
+  context-processing:
+    group_id: iris-context-processing-group
+    topics: [iris.context.events, iris.context.processed]
+    config:
+      session.timeout.ms: 30000
+      heartbeat.interval.ms: 3000
+      max.poll.records: 100
+      max.poll.interval.ms: 600000
+      enable.auto.commit: false
+      auto.commit.interval.ms: 1000
+
+  context-retrieval:
+    group_id: iris-context-retrieval-group
+    topics: [iris.context.retrieval, iris.context.insights]
+    config:
+      session.timeout.ms: 30000
+      heartbeat.interval.ms: 3000
+      max.poll.records: 50
+      max.poll.interval.ms: 300000
+      enable.auto.commit: true
+      auto.commit.interval.ms: 1000
+
+  memory-management:
+    group_id: iris-memory-management-group
+    topics: [iris.memory.management, iris.knowledge.graph]
+    config:
+      session.timeout.ms: 30000
+      heartbeat.interval.ms: 3000
+      max.poll.records: 20
+      max.poll.interval.ms: 900000
+      enable.auto.commit: false
+      auto.commit.interval.ms: 5000
+
+  vector-search:
+    group_id: iris-vector-search-group
+    topics: [iris.vector.search]
+    config:
+      session.timeout.ms: 30000
+      heartbeat.interval.ms: 3000
+      max.poll.records: 25
+      max.poll.interval.ms: 300000
+      enable.auto.commit: true
+      auto.commit.interval.ms: 1000
+
+  monitoring:
+    group_id: iris-monitoring-group
+    topics: [iris.system.monitoring, iris.errors]
+    config:
+      session.timeout.ms: 30000
+      heartbeat.interval.ms: 3000
+      max.poll.records: 1000
+      max.poll.interval.ms: 600000
+      enable.auto.commit: true
+      auto.commit.interval.ms: 5000
+
+# Security Configuration
+security:
+  sasl_mechanism: PLAIN
+  security_protocol: SASL_PLAINTEXT
+  sasl_jaas_config: |
+    org.apache.kafka.common.security.plain.PlainLoginModule required 
+    username="iris_user" 
+    password="iris_secure_2025";
+  ssl_keystore_location: /var/private/ssl/kafka.server.keystore.jks
+  ssl_keystore_password: iris_keystore_2025
+  ssl_key_password: iris_key_2025
+  ssl_truststore_location: /var/private/ssl/kafka.server.truststore.jks
+  ssl_truststore_password: iris_truststore_2025
+  ssl_endpoint_identification_algorithm: https
+
+# Producer Configuration
+producers:
+  default:
+    acks: all
+    retries: 3
+    batch.size: 16384
+    linger.ms: 5
+    buffer.memory: 33554432
+    compression.type: gzip
+    max.in.flight.requests.per.connection: 1
+    request.timeout.ms: 30000
+    delivery.timeout.ms: 120000
+    enable.idempotence: true
+
+  context-events:
+    acks: all
+    retries: 5
+    batch.size: 32768
+    linger.ms: 10
+    compression.type: gzip
+    max.in.flight.requests.per.connection: 1
+    enable.idempotence: true
+
+  insights:
+    acks: all
+    retries: 3
+    batch.size: 16384
+    linger.ms: 20
+    compression.type: lz4
+    max.in.flight.requests.per.connection: 1
+    enable.idempotence: true
+
+# Topic Creation Script
+topic_creation_script: |
+  #!/bin/bash
+  # Create all IRIS v2.0 Kafka topics
+  
+  KAFKA_BROKERS=${KAFKA_BROKERS:-localhost:9092}
+  
+  create_topic() {
+    local topic_name=$1
+    local partitions=$2
+    local replication=$3
+    local retention_ms=$4
+    
+    echo "Creating topic: $topic_name with $partitions partitions, replication factor $replication"
+    kafka-topics --create \
+      --topic "$topic_name" \
+      --bootstrap-server "$KAFKA_BROKERS" \
+      --partitions "$partitions" \
+      --replication-factor "$replication" \
+      --config retention.ms="$retention_ms" \
+      --config compression.type=gzip \
+      --config cleanup.policy=delete
+  }
+  
+  # Create main topics
+  create_topic "iris.context.events" 6 1 604800000
+  create_topic "iris.context.processed" 4 1 2592000000
+  create_topic "iris.context.insights" 3 1 31536000000
+  create_topic "iris.memory.management" 2 1 864000000
+  create_topic "iris.knowledge.graph" 3 1 31536000000
+  create_topic "iris.vector.search" 2 1 864000000
+  create_topic "iris.context.retrieval" 4 1 86400000
+  create_topic "iris.system.monitoring" 1 1 2592000000
+  create_topic "iris.errors" 2 1 7776000000
+  create_topic "iris.dead.letter" 1 1 31536000000
+  
+  echo "All topics created successfully!"
