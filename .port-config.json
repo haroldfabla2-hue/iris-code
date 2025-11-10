@@ -1,0 +1,16 @@
+{
+  "api-gateway": 8000,
+  "fallback-server": 8001,
+  "silhouette-orchestrator": 8002,
+  "silhouette-planner": 8003,
+  "iris-backend": 3000,
+  "iris-frontend": 3001,
+  "postgres": 5432,
+  "redis": 6379,
+  "prometheus": 9090,
+  "grafana": 3002,
+  "business-development": 8004,
+  "marketing": 8005,
+  "sales": 8006,
+  "finance": 8007
+}

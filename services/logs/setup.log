@@ -1,0 +1,7 @@
+2025-11-10 11:01:21 - 🚀 Starting IRIS v2.0 Context Memory Infrastructure setup...
+2025-11-10 11:01:21 - 🔍 Checking system requirements...
+2025-11-10 11:01:21 - ❌ Docker is not installed. Please install Docker first.
+2025-11-10 11:01:21 - ❌ Docker Compose is not installed. Please install Docker Compose first.
+2025-11-10 11:01:21 - ✅ Sufficient memory available: 28903MB
+2025-11-10 11:01:21 - ✅ Sufficient disk space: 1005400GB
+2025-11-10 11:01:21 - ❌ System requirements not met. Please install missing dependencies.

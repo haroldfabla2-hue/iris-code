@@ -1,0 +1,16 @@
+{
+  "name": "iris-code-enhanced",
+  "version": "1.0.0",
+  "description": "**Sistema Multi-Agente Empresarial Completo con Fallback Inteligente**",
+  "main": "verify-integration.js",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
